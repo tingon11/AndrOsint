@@ -1,0 +1,33 @@
+# Strumenti scaricati dall'applicazione: nel repository resta solo il promemoria
+/tools/*
+!/tools/LEGGIMI.txt
+
+# Dati locali: pacchetti, screenshot e impostazioni (restano le cartelle vuote)
+/apk/*
+!/apk/.gitkeep
+/screenshots/*
+!/screenshots/.gitkeep
+/config.json
+/config.json.tmp
+
+# Eseguibile compilato con scripts/build_exe.py
+build/
+dist/
+*.spec
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor e sistema
+.idea/
+.vscode/
+.claude/
+Thumbs.db
+desktop.ini

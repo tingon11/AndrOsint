@@ -1,0 +1,84 @@
+AndrOsint
+Copyright (C) 2026 Andrea Cumini <andrea@osintinfo.net>
+https://www.osintinfo.net
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation, version 3 of the License, together with the additional
+terms below.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+The full text of the GNU General Public License version 3 is in the file
+LICENSE. It is also available at <https://www.gnu.org/licenses/gpl-3.0.html>.
+
+
+ADDITIONAL TERMS (GNU GPL version 3, section 7)
+===============================================
+
+1. Attribution (section 7(b))
+
+   Every copy of this program, and every work based on it, must preserve:
+
+   (a) the copyright and license notices in the source files, and this
+       NOTICE file;
+
+   (b) the author attribution
+
+           Andrea Cumini - andrea@osintinfo.net - www.osintinfo.net
+
+       displayed in the user interface (the credits line in the status bar
+       at the bottom of the main window) and in the documentation. This
+       attribution is part of the Appropriate Legal Notices of the program.
+
+   The attribution must remain legible. Modified versions may add their own
+   notices next to it, but may not remove, hide or alter it.
+
+2. Modified versions (section 7(c))
+
+   Modified versions must be marked in a reasonable way as different from
+   the original version, and must not misrepresent the origin of the
+   material.
+
+3. Name and logo (section 7(e))
+
+   The name "AndrOsint", its logo and its "AO" icon (logo.png, androsint.ico
+   and the same artwork inside the program's window and executable) identify
+   the original program and its author. The License does not grant any right
+   to use them as a trade name, trademark or service mark: a modified version
+   distributed to others must use a different name and logo. Unmodified
+   copies may keep them.
+
+
+CREDITS
+=======
+
+The logo and the icon are set in Panchang, a typeface by Indian Type Foundry
+(ITF), which owns its trademarks and copyright
+<https://www.fontshare.com/fonts/panchang>. They contain outlines and
+images only: the font is not distributed with this program.
+
+
+THIRD-PARTY SOFTWARE
+====================
+
+AndrOsint does not include ADB or scrcpy. When the user asks for it, the
+program downloads them from their official sources into the tools/ folder
+next to it:
+
+  - Android SDK Platform-Tools (ADB), by Google
+    <https://developer.android.com/tools/releases/platform-tools>
+  - scrcpy, by Genymobile, under the Apache License 2.0
+    <https://github.com/Genymobile/scrcpy>
+
+They are separate programs, not part of this one: each comes with its own
+license terms, in the files downloaded with it.
+
+AndrOsint uses the Python libraries CustomTkinter, Pillow, darkdetect and
+packaging. The standalone executable built with scripts/build_exe.py also
+contains Python and Tcl/Tk. Each of them remains under its own license.
+
+This project is not affiliated with, endorsed by, or sponsored by Google or
+Genymobile. Android is a trademark of Google LLC.
