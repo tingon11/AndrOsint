@@ -269,9 +269,16 @@ bitrate, FPS, mantieni sveglio, spegni schermo, finestra in primo piano),
 controllo rapido e registro delle operazioni. Ogni scelta vale subito ed è
 salvata in `config.json` accanto all'applicazione.
 
-*Arresta il server ADB alla chiusura* è disattivato di default: lasciare il
-server in esecuzione rende immediato l'avvio successivo. Va attivato se si
-vuole che alla chiusura non resti alcun processo `adb.exe`.
+Quando l'applicazione si chiude, scrcpy e ADB vengono fermati con lei: non
+resta alcun processo `scrcpy.exe` o `adb.exe`. Vale anche se l'applicazione va
+in crash o viene terminata da Gestione attività: i processi che avvia sono
+legati a lei tramite un «job» di Windows, e il sistema li chiude quando
+l'applicazione sparisce.
+
+*Arresta il server ADB alla chiusura* è attivo di default. Va disattivato se
+si vuole che il server resti in esecuzione dopo una chiusura normale, ad
+esempio perché lo usano altri programmi o per rendere immediato l'avvio
+successivo.
 
 ## Screenshot
 

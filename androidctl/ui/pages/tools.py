@@ -117,9 +117,10 @@ class ToolsPage(Page):
             row, "fast_control", tr("Fast control (instant keys and clipboard)"),
             command=self.app.apply_fast_control,
         ).grid(row=0, column=0, sticky="w", padx=(0, 24))
-        self._switch(row, "kill_adb_on_exit", tr("Stop the ADB server on exit")).grid(
-            row=0, column=1, sticky="w"
-        )
+        self._switch(
+            row, "stop_adb_on_exit", tr("Stop the ADB server on exit"),
+            command=self.app.apply_stop_adb,
+        ).grid(row=0, column=1, sticky="w")
 
     def _build_log(self) -> None:
         card = Card(self, tr("Log"), self.fonts)

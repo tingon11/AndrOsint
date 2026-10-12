@@ -17,7 +17,7 @@ from typing import Callable
 
 from . import paths
 from .i18n import tr
-from .process import popen, run, run_binary, spawn_detached
+from .process import adopt_listener, popen, run, run_binary, spawn_detached
 
 # Caratteri che la shell di Android interpreta e che vanno protetti in `input text`.
 _INPUT_SPECIALS = '()<>|;&*~"\'`$#!'
@@ -88,6 +88,8 @@ class Adb:
         self._env: dict | None = None
         # Messo a True mentre si aggiornano gli strumenti: il server non va riavviato.
         self.paused = False
+        # True: il server ADB deve finire con l'applicazione, anche se lo ha avviato un altro.
+        self.own_server = True
 
     # ---------------------------------------------------------------- setup
 
@@ -170,16 +172,21 @@ class Adb:
         except (OSError, subprocess.SubprocessError, AdbError):
             pass
 
-    def kill_server(self) -> None:
+    def kill_server(self, timeout: float = 15) -> None:
         try:
-            run([str(self.exe), "kill-server"], timeout=15, env=self.child_env())
+            run([str(self.exe), "kill-server"], timeout=timeout, env=self.child_env())
         except (OSError, subprocess.SubprocessError, AdbError):
             pass
 
-    def kill_server_detached(self) -> None:
-        """Arresta il server senza attendere: usata alla chiusura dell'applicazione."""
-        if self.available:
-            spawn_detached([str(self.exe), "kill-server"], env=self.child_env())
+    def adopt_server(self) -> None:
+        """Lega alla vita dell'applicazione il server ADB in ascolto.
+
+        Quello avviato da un nostro comando lo e' gia'; questo serve per un
+        server che era in esecuzione prima, cosi' anche lui finisce se
+        l'applicazione si interrompe.
+        """
+        if self.own_server:
+            adopt_listener(server_port(), "adb.exe")
 
     # ----------------------------------------------------------- dispositivi
 
@@ -206,6 +213,7 @@ class Adb:
                 stop.wait(1.0)
                 continue
             self.start_server()
+            self.adopt_server()
             try:
                 with socket.create_connection(("127.0.0.1", server_port()), timeout=5) as sock:
                     sock.settimeout(1.0)

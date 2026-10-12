@@ -275,9 +275,15 @@ bitrate, FPS, keep awake, turn screen off, window on top), fast control and
 the operations log. Every choice applies immediately and is saved in
 `config.json` next to the application.
 
-*Stop the ADB server on exit* is off by default: leaving the server running
-makes the next start immediate. Turn it on if you want no `adb.exe` process to
-be left when the application closes.
+When the application closes, scrcpy and ADB are stopped with it, so no
+`scrcpy.exe` or `adb.exe` process is left behind. This also holds if the
+application crashes or is ended from Task Manager: the processes it starts are
+tied to it through a Windows job object, and the system ends them when the
+application goes away.
+
+*Stop the ADB server on exit* is on by default. Turn it off if you want the
+server to stay running after a normal close, for example because other tools
+use it or to make the next start immediate.
 
 ## Screenshots
 

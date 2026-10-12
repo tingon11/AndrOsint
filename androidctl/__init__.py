@@ -3,7 +3,7 @@
 # GNU GPL v3 con termini aggiuntivi (attribuzione dell'autore): vedi LICENSE e NOTICE.
 """AndrOsint - telecomando desktop per dispositivi Android via ADB/scrcpy."""
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 APP_NAME = "AndrOsint"
 AUTHOR = "Andrea Cumini"
 AUTHOR_EMAIL = "andrea@osintinfo.net"

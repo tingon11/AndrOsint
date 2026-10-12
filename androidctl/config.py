@@ -28,7 +28,8 @@ DEFAULTS: dict[str, Any] = {
     # Canale di controllo diretto (tasti e appunti istantanei)
     "fast_control": True,
     "clip_autosync": False,
-    "kill_adb_on_exit": False,
+    # Chiave nuova al posto di kill_adb_on_exit (che valeva False): ora il server si ferma.
+    "stop_adb_on_exit": True,
     "show_system_apps": False,
     # Installazione pacchetti
     "packages_dir": str(DEFAULT_PACKAGES_DIR),

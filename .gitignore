@@ -10,9 +10,10 @@
 /config.json
 /config.json.tmp
 
-# Eseguibile compilato con scripts/build_exe.py
+# Eseguibile compilato con scripts/build_exe.py, e le copie messe da parte (dist_2.0.0, ...)
 build/
 dist/
+dist_*/
 *.spec
 
 # Python

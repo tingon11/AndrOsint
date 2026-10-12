@@ -13,7 +13,7 @@ from pathlib import Path
 
 import customtkinter as ctk
 
-from .. import APP_NAME, CREDITS, __version__, apkinfo, i18n, paths, tools, winclip
+from .. import APP_NAME, CREDITS, __version__, apkinfo, i18n, paths, process, tools, winclip
 from ..adb import Adb, Device
 from ..bridge import Bridge, BridgeError, app_labels
 from ..config import Config
@@ -80,6 +80,7 @@ class App(ctk.CTk):
         theme.style_tables(self)
 
         self.adb = Adb()
+        self.adb.own_server = bool(self.config_store.get("stop_adb_on_exit"))
         self.scrcpy = Scrcpy(self.adb)
         self.tasks = Tasks(
             self,
@@ -852,7 +853,16 @@ class App(ctk.CTk):
         self.adb.paused = False
         self._signature = None
 
+    def apply_stop_adb(self) -> None:
+        """Applica subito la scelta fatta nelle impostazioni sul server ADB."""
+        self.adb.own_server = bool(self.config_store.get("stop_adb_on_exit"))
+        if self.adb.own_server and self.adb.available:
+            self.tasks.run(self.adb.adopt_server, on_error=lambda _exc: None)
+
     # --------------------------------------------------------------- uscita
+    #
+    # scrcpy e i comandi adb sono legati all'applicazione (vedi process.py): se
+    # questa si interrompe li ferma il sistema. Qui c'e' la chiusura ordinata.
 
     def _on_close(self) -> None:
         self._stop.set()
@@ -868,11 +878,19 @@ class App(ctk.CTk):
         except tk.TclError:
             pass
         self.config_store.save()
+        try:
+            self.withdraw()  # la finestra sparisce subito, i processi si fermano un attimo dopo
+        except tk.TclError:
+            pass
         self.scrcpy.stop()
-        kill_server = bool(self.config_store.get("kill_adb_on_exit"))
-        self.bridge.stop(keep_forward=kill_server)
-        if kill_server:
-            self.adb.kill_server_detached()
+        stop_server = bool(self.config_store.get("stop_adb_on_exit"))
+        # Se il server si ferma, l'inoltro della porta sparisce con lui: inutile toglierlo.
+        self.bridge.stop(keep_forward=stop_server)
+        if not stop_server:
+            # Il server ADB resta attivo: va sciolto il legame che lo farebbe finire con noi.
+            process.keep_children_on_exit()
+        elif self.adb.available:
+            self.adb.kill_server(timeout=4)
         self.destroy()
 
 
